@@ -1,0 +1,60 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Plsql {
+  id        Int      @id @default(autoincrement())
+  number    Int
+  result    Float
+  time      Float
+  createdAt DateTime @default(now())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model ApiFunction {
+  id        Int      @id @default(autoincrement())
+  number    Int
+  result    Float
+  time      Float
+  createdAt DateTime @default(now())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model User {
+  id        String               @id @default(uuid())
+  // roleId   String        @default("1")
+  // role     Role          @relation(fields: [roleId], references: [id])
+  email     String               @unique
+  password  String
+  nama      String
+  nim       String
+  otp       Int
+  status    String               @default("tidak aktif")
+  api       ApiFunction[]
+  plsql     Plsql[]
+  userToken User_refresh_token[]
+}
+
+model User_refresh_token {
+  id           String   @id @default(uuid())
+  refreshToken String   @db.Text
+  userId       String
+  user         User     @relation(fields: [userId], references: [id])
+  createdAt    DateTime @default(now())
+}
+
+// model Role {
+//   id   String @id @default(uuid())
+//   nama String
+//   user User[] 
+// }
