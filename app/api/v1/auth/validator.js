@@ -1,11 +1,13 @@
 const Joi = require('joi');
 const message = require('../../../utils/customValidation.js');
 
-const { string, number } = message;
+const { string } = message;
 
 const schema = Joi.object({
-	name: Joi.string().required().min(2).max(10).messages(string),
-	price: Joi.number().integer().required().min(19).max(2013).message(number),
+	nama: Joi.string().required().min(3).messages(string),
+	nim: Joi.string().required().min(8).messages(string),
+	email: Joi.string().required().min(8).messages(string),
+	password: Joi.string().min(8).required().messages(string),
 });
 
 module.exports = {
